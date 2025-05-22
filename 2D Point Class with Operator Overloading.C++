@@ -122,8 +122,38 @@ public:
         --(*this);
         return temp;
     }
+    
+    friend istream& operator>> (istream &cin, Point &p);
+    // Overload the input stream operator (>>) to allow direct input of Point objects.
+    // Declared as a friend to access private/protected members if needed.
 
+    friend ostream& operator<< (ostream &cout, const Point &p);
+    // Overload the output stream operator (<<) to allow direct output of Point objects.
+    // Declared as a friend to access internal members of the class.
 };
+
+istream& operator>> (istream &cin, Point &p)
+// This function overloads the >> operator for the Point class.
+{
+    // Prompt user to enter point coordinates
+    cout << "\nEnter a point (X, Y): " << endl;
+    // Read x and y values from standard input into the point object
+    cin >> p.x >> p.y;
+    // Return the stream object to allow chaining (e.g., cin >> p1 >> p2)
+    return cin; 
+}
+
+ostream& operator<< (ostream &cout, const Point &p)
+// This function overloads the << operator for the Point class.
+{
+    // Inform the user that the point is being printed
+    cout << "\nThis point is Printed:" << endl;
+    // Output the x and y coordinates separated by space
+    cout << p.x << " " << p.y << endl;
+    // Return the stream object to allow chaining (e.g., cout << p1 << p2)
+    return cout;
+}
+
 
 int main() {
     // Create point P1 using parameterized constructor
@@ -199,6 +229,11 @@ int main() {
     Point P13 = P1--;
     P13.info(); // Still shows decremented values
 
+    Point p;               // Create a Point object 'p'
+    cin >> p;              // Use overloaded >> operator to input coordinates for p
+    // Behind the scenes: operator>>(cin, p) is called
+    cout << p;             // Use overloaded << operator to output coordinates of p
+    // Behind the scenes: operator<<(cout, p) is called
 
     return 0; // Indicate successful program termination
 }
